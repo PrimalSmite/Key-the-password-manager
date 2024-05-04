@@ -1,5 +1,0 @@
-﻿  funcs.cpp
-  main.cpp
-C:\Users\miste\source\repos\Project_A_final\Project_A_final\main.cpp(19,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  Создание кода...
-  Project_A_final.vcxproj -> C:\Users\miste\source\repos\Project_A_final\x64\Debug\Project_A_final.exe
