@@ -26,7 +26,7 @@ int main() {
   while (menu_act != 0) {
     // creating password
     if (menu_act == 1) {
-      system("cls");
+      clear_screen();
 
       cout << menu_one << endl;
       cout << warning << endl;
@@ -43,8 +43,10 @@ int main() {
       if (act == 1) {
         cout << "Dont forget to copy your password in to the clipboard!!!"
              << endl;
-        system("pause");
-        system("cls");
+
+        // Pause with clear
+        wait_on_enter();
+        clear_screen();
 
         // Entering a data
         cout << "Please, check the spelling of the data is correct!" << endl
@@ -58,17 +60,16 @@ int main() {
         Data(name, login, password);
       }
 
-      // system("pause");
       // Pause
       wait_on_enter();
-      // system("cls");
       // Clear console
       clear_screen();
       Menu();
     }
     // saving password
     else if (menu_act == 2) {
-      system("cls");
+      // Clear console
+      clear_screen();
 
       cout << menu_two << endl;
       // entering a data
@@ -83,13 +84,17 @@ int main() {
 
       Data(name, login, password);
 
-      system("pause");
-      system("cls");
+      // Pause with clear console
+      wait_on_enter();
+      clear_screen();
+
       Menu();
     }
     // show a password
     else if (menu_act == 3) {
-      system("cls");
+      // Clear console
+      clear_screen();
+
       cout << menu_tree << endl;
       ;
       cout << opa << endl;
@@ -106,14 +111,18 @@ int main() {
         cout << "Error! Incorrect value!" << endl;
         cout << opa << endl;
       }
-      system("pause");
-      system("cls");
+
+      // Pause with clear console
+      wait_on_enter();
+      clear_screen();
+
       Menu();
     }
 
     // chagne a password
     else if (menu_act == 4) {
-      system("cls");
+      // Clear console
+      clear_screen();
 
       cout << menu_four << endl;
       cout << warning << endl;
@@ -125,14 +134,18 @@ int main() {
       Change_password(_name, new_data);
       Print_all();
 
-      system("pause");
-      system("cls");
+      // Pause with clear console
+      wait_on_enter();
+      clear_screen();
+
       Menu();
     }
 
     // change a login
     else if (menu_act == 5) {
-      system("cls");
+      // CLear console
+      clear_screen();
+
       cout << menu_five << endl;
       cout << warning << endl;
       cout << "Enter a service name:" << endl;
@@ -143,14 +156,18 @@ int main() {
       Change_login(_name, new_data);
       Print_all();
 
-      system("pause");
-      system("cls");
+      // Pause with clear console
+      wait_on_enter();
+      clear_screen();
+
       Menu();
     }
 
     // Remove a password
     else if (menu_act == 6) {
-      system("cls");
+      // Clear console
+      clear_screen();
+
       cout << menu_six << endl;
       cout << warning << endl;
       cout << "Enter the name of service, which you want to remove the password"
@@ -160,19 +177,24 @@ int main() {
       Remove_data(name);
       Print_all();
 
-      system("pause");
-      system("cls");
+      // Pause with clear console
+      wait_on_enter();
+      clear_screen();
+
       Menu();
     }
 
     // wrong action
     else {
-      system("cls");
+      // Clear console
+      clear_screen();
 
       cout << "Wrong action!" << endl;
 
-      system("pause");
-      system("cls");
+      // Pause with clear console
+      wait_on_enter();
+      clear_screen();
+
       Menu();
     }
   }
