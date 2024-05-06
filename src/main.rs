@@ -1,51 +1,23 @@
-mod funcs;
-mod input;
+mod funcs; //Подключение файла funcs.rs
+use funcs::consl::clean;
+use funcs::input::{int_input, usize_input};
+use funcs::password; //Подключение модуля password
 
-use crate::funcs::password;
-use crate::input::input::int_input;
- 
-pub use std::io;
+fn main() {
+    let action: u8 = password::menu();
 
-mod menu{
-    use crate::input::input::int_input;
+    while action != 0 {
+        //Очистка консоли
+        clean();
 
-    pub fn menu() -> u8{
-        println!("Выберите действие:\n(1) Создать пароль\n(2) Сохранить пароль\n(0) Выход");
+        //Переменные для записи числа типа usize
+        let length: usize;
+        let mut str_length = String::new();
 
-        //Ввод числа
-        let mut menu_act = String::new();
-        let action: u8 = int_input(&mut menu_act);
+        //Длина пароля
+        length = usize_input(&mut str_length);
 
-        action
-    }
-}
-
-
-fn main(){
-    let act = menu::menu();
-
-    //Основной цикл
-    while act != 0 {
-
-        //Создание пароля
-       if act == 1 {
-           password::generate();
-           println!("Хотите сохранить пароль?\n(1) Да\n(2) Нет");
-
-           //Ввод числа
-           let mut save_string = String::new();
-           let save:u8 = int_input(&mut save_string);
-           
-           //Сохранение пароля
-            if save == 1{
-                
-            } else if save == 2 {
-                //sql::save(&sql::connect()); 
-            } else {
-
-            }
-           
-           break; 
-       }
+        let password = password::generate(length);
+        println!("{}", password);
     }
 }

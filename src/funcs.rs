@@ -1,65 +1,88 @@
-//Модуль пароля
-pub mod password{
-    use crate::input::input::int_input;
-    use rand::Rng;
+//Модуль консоли
+pub mod consl {
+    //Очистка консоли
+    pub fn clean() {
+        let term = console::Term::stdout();
+        term.clear_screen().expect("Не удалось очистить консоль");
+    }
+}
 
-    pub const SYMBOLS: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-                            abcdefghijklmnopqrstuvwxyz\
-                            0123456789)(*&^%$#!";
+//Модуль ввода
+pub mod input {
+    use std::{io, usize};
 
+    //Функция создает переменную из типа String в тип u8
+    pub fn transform(string: &String) -> u8 {
+        let number: u8 = string.trim().parse().expect(
+            "Не удалось распознать число. Пожалуйста, убедитесь, что вы ввели число от 0 до 255",
+        );
 
-    fn ask_len() -> u8 {
-        println!("Введите количество символов в пароле:");
-        let mut count = String::new();
-        /*
-        io::stdin().read_line(&mut _count).expect("error");
-        let len_int: u8 = transform(&_count);
-        */
-        let len: u8 = int_input(&mut count);
-
-        len
+        number
     }
 
-    pub fn generate() -> String{
-        let mut rng = rand::thread_rng();
-       
-        let lenght: u8 = ask_len(); 
+    //Функция вводит данные с клавиатуры и записывает в переменню типа String
+    fn stdinput(mut string: &mut String) -> String {
+        //Ввод значения с клавитуры в переменную String
+        io::stdin()
+            .read_line(&mut string)
+            .expect("Не удалось ввести значение");
+        let result = String::new();
 
-        let password: String = (0..lenght)
-            .map(|_| {
-                let index = rng.gen_range(0..SYMBOLS.len());
-                SYMBOLS[index] as char
-            })
+        result
+    }
+
+    //Функция вводит данные с клавиатуры и записывает их в тип u8
+    pub fn int_input(mut string: &mut String) -> u8 {
+        *string = stdinput(&mut string);
+        let number: u8 = transform(&string);
+
+        //Возвращает number:u8
+        number
+    }
+
+    pub fn usize_transform(string: &String) -> usize {
+        let number: usize = string.trim().parse().expect(
+            "Не удалось распознать число. Пожалуйста, убедитесь, что вы ввели число от 0 до 255",
+        );
+
+        number
+    }
+
+    //Функция вводит данные с клавиатуры и записывает их в тип u8
+    pub fn usize_input(mut string: &mut String) -> usize {
+        *string = stdinput(&mut string);
+        let number: usize = usize_transform(&string);
+
+        //Возвращает number:u8
+        number
+    }
+}
+
+pub mod password {
+    use crate::funcs::input::int_input;
+    use rand::distributions::Alphanumeric;
+    use rand::Rng;
+
+    //Функция меню
+    pub fn menu() -> u8 {
+        println!("Выберите действие:\n(1) Сгенирировать пароль\n(2) Сохранить пароль\n(3) Показать пароль\n(4) Сменить логин\n(5) Сменить пароль\n(6) Удалить пароль\n(0) Выход");
+
+        let mut str_act = String::new();
+        let action: u8;
+
+        action = int_input(&mut str_act);
+
+        action
+    }
+
+    //Генерация пароля
+    pub fn generate(length: usize) -> String {
+        let password: String = rand::thread_rng()
+            .sample_iter(&Alphanumeric)
+            .take(length)
+            .map(char::from)
             .collect();
-        println!("{:?}", password);
 
         password
     }
 }
-
-
-
-/*Модуль базы данных
-pub mod sql {
-    extern crate rusqlite;
-
-    use std::{fmt::Result, io};
-    use rusqlite::{Connection, Result};
-
-    pub fn connect() -> Result<()> {
-        let con = Connection::open("Passwords.db");
-
-        println!("db is opened!");
-        Ok(())
-    }
-
-    pub fn save(connect: &Result<()>) {
-        
-        if connect == Ok(()) {
-            println!("ghsd");
-        } else if connect == Err(()) {
-
-        }
-    }
-}
-*/
