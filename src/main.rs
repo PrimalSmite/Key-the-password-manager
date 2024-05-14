@@ -1,23 +1,30 @@
 mod funcs; //Подключение файла funcs.rs
+mod iomod;
+
 use funcs::consl::clean;
-use funcs::input::{int_input, usize_input};
-use funcs::password; //Подключение модуля password
+use funcs::password; //Подключение моделя password
+use iomod::input::input_line;
+
+use crate::iomod::input::{read_int, to_u8};
 
 fn main() {
     let action: u8 = password::menu();
 
     while action != 0 {
-        //Очистка консоли
-        clean();
+        if action == 1 {
+            //Очистка консоли
+            clean();
 
-        //Переменные для записи числа типа usize
-        let length: usize;
-        let mut str_length = String::new();
+            //Переменные для записи числа типа i8
+            let length: i8;
+            let mut str_length = String::new();
 
-        //Длина пароля
-        length = usize_input(&mut str_length);
+            //Длина пароля
+            println!("Введите длину пароля: ");
+            length = int_input_i8(&mut str_length);
 
-        let password = password::generate(length);
-        println!("{}", password);
+            let password = password::generate(length);
+            println!("{}", password);
+        }
     }
 }
