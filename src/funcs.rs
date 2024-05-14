@@ -5,6 +5,17 @@ pub mod consl {
         let term = console::Term::stdout();
         term.clear_screen().expect("Не удалось очистить консоль");
     }
+
+    //Пауза консоли
+    pub fn pause() {
+        println!("Нажмите, чтобы продолжить... ");
+
+        let mut buffer = String::new();
+
+        std::io::stdin()
+            .read_line(&mut buffer)
+            .expect("Failed to read line");
+    }
 }
 
 pub mod password {
