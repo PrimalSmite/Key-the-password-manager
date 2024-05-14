@@ -8,7 +8,7 @@ pub mod consl {
 }
 
 pub mod password {
-    use crate::iomod::input::input_line;
+    use crate::iomod::input::read_u8;
     use rand::Rng;
 
     //Массив символов
@@ -16,19 +16,13 @@ pub mod password {
                         abcdefghijklmnopqrstuvwxyz\
                         0123456789)(*&^%$#@!~";
 
-    /*
     //Функция меню
     pub fn menu() -> u8 {
         println!("Выберите действие:\n(1) Сгенирировать пароль\n(2) Сохранить пароль\n(3) Показать пароль\n(4) Сменить логин\n(5) Сменить пароль\n(6) Удалить пароль\n(0) Выход");
-
-        let mut str_act = String::new();
-        let action: u8;
-
-        action = int_input(&mut str_act);
+        let action: u8 = read_u8();
 
         action
     }
-    */
 
     //Генерация пароля
     pub fn generate(length: i8) -> String {
