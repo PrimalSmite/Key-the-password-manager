@@ -1,8 +1,10 @@
+mod database;
 mod funcs; //Подключение файла funcs.rs
 mod iomod;
 
-use crate::iomod::input::{read_i8, read_u8};
-use funcs::consl::{clean, pause};
+use crate::iomod::input::read_i8;
+use database::db::*;
+use funcs::consl::pause;
 use funcs::password; //Подключение моделя password
 
 fn main() {
@@ -10,25 +12,18 @@ fn main() {
 
     while action != 0 {
         if action == 1 {
-            /*
-            //Очистка консоли
-            clean();
-            */
-
-            //Переменные для записи числа типа i8
-            let length: i8;
-            //let mut str_length = String::new();
-
             //Длина пароля
             println!("Введите длину пароля: ");
-            length = read_i8();
+            let length: i8 = read_i8();
 
+            //Создание пароля
             let password = password::generate(length);
             println!("{}", password);
 
             //Пауза
             pause();
 
+            //Вызов меню
             action = password::menu();
         } else if action == 2 {
             println!("buba");
