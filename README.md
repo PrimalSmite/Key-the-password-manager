@@ -1,4 +1,4 @@
-To download the app, you need to download the "Key.exe" file from the repository.  
-Next, you need to create a new directory anywhere and put the app into it.  
-Your OS may stop running the application, this is normal. Just continue running.  
-Your antivirus may quarantine the application or remove it altogether. This problem will be fixed in the future. It is because the app has no digital signature.  
+To download the app, you need to search for Releases and download the "Key.exe" file.  
+Next, you need to create a new folder and move "Key.exe" to it.  
+Key does not have any license and antivirus can delete the Key.  
+If it happened, you just need to download it again. File with passwords will not be deleted.
