@@ -1,11 +1,5 @@
 //Модуль консоли
 pub mod consl {
-    //Очистка консоли
-    pub fn clean() {
-        let term = console::Term::stdout();
-        term.clear_screen().expect("Не удалось очистить консоль");
-    }
-
     //Пауза консоли
     pub fn pause() {
         println!("Нажмите, чтобы продолжить... ");
