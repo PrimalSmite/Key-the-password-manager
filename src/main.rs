@@ -1,5 +1,5 @@
 mod database;
-mod funcs; //Подключение файла funcs.rs
+mod funcs;
 mod iomod;
 
 use crate::iomod::input::read_i8;
@@ -9,6 +9,11 @@ use funcs::password;
 use iomod::input; //Подключение моделя password
 
 fn main() {
+    cc::Build::new()
+        .cpp(true)
+        .file("src/funcs.cpp")
+        .compile("main.a");
+
     let mut action: u8 = password::menu();
 
     while action != 0 {
@@ -27,20 +32,23 @@ fn main() {
             //Вызов меню
             action = password::menu();
         } else if action == 2 {
-            // Ввод данных пользователя
-            println!("Введите название сервиса: ");
-            let name = iomod::input::input_line();
-            println!("Введите логин: ");
-            let login = input::input_line();
-            println!("Введите пароль: ");
-            let password = input::input_line();
+            unsafe {
+                // Ввод данных пользователя
+                println!("Введите название сервиса: ");
+                let name = iomod::input::input_line();
+                println!("Введите логин: ");
+                let login = input::input_line();
+                println!("Введите пароль: ");
+                let password = input::input_line();
 
-            // Сохранение данных в базу данных
-            match database::db::save(name, login, password) {
-                Err(err) => println!("Insert failed: {}", err),
-                Ok(inserted) => println!("Inserted data: {:?}", inserted),
+                /*  Сохранение данных в базу данных
+                match database::db::save(name, login, password) {
+                    Err(err) => println!("Insert failed: {}", err),
+                    Ok(inserted) => println!("Inserted data: {:?}", inserted),
+                }
+                */
+                saving(name, login, password);
             }
-
             // Пауза
             pause();
             // Вызов меню
