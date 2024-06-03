@@ -1,8 +1,12 @@
+mod crypto;
 mod funcs; //Подключение файла funcs.rs
 mod iomod;
 
+use std::io::{self, stdin};
+
 use crate::iomod::input::{read_i8, read_u8};
-use funcs::consl::{clean, pause};
+use crypto::aes256::{self, encrypt};
+use funcs::consl::pause;
 use funcs::password; //Подключение моделя password
 
 fn main() {
@@ -31,7 +35,6 @@ fn main() {
 
             action = password::menu();
         } else if action == 2 {
-            println!("buba");
         }
     }
 }
