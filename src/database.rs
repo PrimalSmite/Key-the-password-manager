@@ -53,7 +53,7 @@ pub mod db {
     }
 
     pub fn print_all() {
-        impl Result {
+        impl Result<_, Error> {
             pub fn decrypttt(&self) -> String {
                 let mcrypt = new_magic_crypt!("magickey", 256);
                 let decrypt_string = mcrypt.decrypt_base64_to_string(&self.password).unwrap();
