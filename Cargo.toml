@@ -9,3 +9,4 @@ edition = "2021"
 rand = "0.8.5"
 console = "0.15.8"
 magic-crypt = "3.1.13"
+rusqlite = { version = "0.31.0", features = ["bundled"] }
