@@ -1,11 +1,10 @@
 [package]
-name = "pass"
+name = "Rust"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+magic-crypt = "3.1.13"
 rand = "0.8.5"
-console = "0.15.8"
 rusqlite = { version = "0.31.0", features = ["bundled"] }
+walkdir = "2.5.0"

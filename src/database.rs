@@ -1,6 +1,6 @@
 //Модуль базы данных
 pub mod db {
-    use rusqlite::{Connection, Result};
+    use rusqlite::Connection;
 
     #[derive(Debug)]
     pub struct Data {

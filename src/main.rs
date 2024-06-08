@@ -1,12 +1,14 @@
 mod database;
+mod finder;
 mod funcs;
 mod iomod;
 
 use crate::iomod::input::read_i8;
-use database::db::{self, print_all, save};
+//use database::db::{print_all, save};
+use finder::file::{print_all_files, read_file, save_file};
 use funcs::consl::pause;
 use funcs::password;
-use iomod::input::{self, input_line}; //Подключение моделя password
+use iomod::input; //Подключение моделя password
 
 fn main() {
     let mut action: u8 = password::menu();
@@ -35,21 +37,30 @@ fn main() {
             println!("Введите пароль: ");
             let password = input::input_line();
 
-            // Сохранение данных в базу данных
-            database::db::save(name, login, password);
+            match save_file(name, login, password) {
+                Ok(saved) => println!("File saved: {:?}", saved),
+                Err(err) => println!("Error: {}", err),
+            };
+
             // Пауза
             pause();
             // Вызов меню
             action = password::menu();
         } else if action == 3 {
-            println!("Выберите действие:\n(1) Показать всё\n(2) Показать определённое");
+            println!("Выберите действие:\n(1) Показать всё\n(2) Показать определённоё");
             action = input::read_u8();
-            if action == 1 {
-                database::db::print_all();
-            } else if action == 2 {
-                println!("Введите название сервиса:");
-                let name = input_line();
-                db::print_certain(&name);
+
+            while action != 1 && action != 2 {
+                if action == 1 {
+                    //database::db::print_all();
+                    let _ = print_all_files();
+                } else if action == 2 {
+                    println!("Введите название сервиса:");
+                    let name = input::input_line();
+                    database::db::print_certain(&name);
+                } else {
+                    println!("Ошибка!");
+                }
             }
 
             // Пауза
