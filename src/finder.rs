@@ -1,11 +1,9 @@
 pub mod file {
     extern crate walkdir;
 
-    use walkdir::WalkDir;
     use std::fs;
     use std::fs::File;
     use std::io::{Read, Write};
-    use std::path::Path;
 
     // Создание, запись и сохрание
     pub fn save_file(name: String, login: String, password: String) -> std::io::Result<()> {
@@ -40,11 +38,6 @@ pub mod file {
         // Путь до папки
         //let folder_path = "C:\\Program Files";
 
-        for file in WalkDir::new("C:").into_iter().filter_map(|file| file.ok()){
-            if file.metadata().unwrap().is_file(){
-                println!("{}", file.path().display());
-            }
-        }
 
         Ok(())
     }

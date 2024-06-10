@@ -3,15 +3,14 @@ mod finder;
 mod funcs;
 mod iomod;
 
-use crate::iomod::input::read_i8;
-//use database::db::{print_all, save};
+use iomod::input::read_i8;
 use finder::file::{print_all_files, read_file, save_file};
 use funcs::consl::pause;
 use funcs::password;
 use iomod::input; //Подключение моделя password
 
 fn main() {
-    let mut action: u8 = password::menu();
+    let mut action= password::menu();
 
     while action != 0 {
         if action == 1 {
