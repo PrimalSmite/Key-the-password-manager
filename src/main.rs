@@ -1,4 +1,3 @@
-mod database;
 mod finder;
 mod funcs;
 mod iomod;
@@ -56,7 +55,6 @@ fn main() {
                 } else if action == 2 {
                     println!("Введите название сервиса:");
                     let name = input::input_line();
-                    database::db::print_certain(&name);
                 } else {
                     println!("Ошибка!");
                 }
