@@ -3,7 +3,7 @@ mod funcs;
 mod iomod;
 
 use iomod::input::{input_line, read_i8};
-use finder::file::{self, change_login, change_password, print_all_files, read_file, rm_file, save_file};
+use finder::file::{change_login, change_password, print_all_files, read_file, rm_file, save_file};
 use funcs::consl::pause;
 use funcs::password;
 use iomod::input; //Подключение моделя password
@@ -48,20 +48,10 @@ fn main() {
             println!("Выберите действие:\n(1) Показать всё\n(2) Показать определённое\n(0) Меню");
             action = input::read_u8();
 
-            while (action != 1) && (action != 2){
+            while action != 1 && action != 2{
                 if action == 1{
                     println!("(1) Показать всё");
-                    let _ = file::print_all_files();
-                } else if action == 2 {
-                    println!("(2) Показать определённое");
-                    print!("Введите имя сервиса:");
-                    let name = input_line();
-                    let _ = read_file(name);
-                } else if action == 0{
-                } else {
-                    println!("Ошибка! Введите корректное действие");
-                    println!("Выберите действие:\n(1) Показать всё\n(2) Показать определённоё");
-                    action = input::read_u8();
+                    let _ = print_all_files(); 
                 }
             }
 

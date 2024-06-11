@@ -6,5 +6,3 @@ edition = "2021"
 [dependencies]
 magic-crypt = "3.1.13"
 rand = "0.8.5"
-rusqlite = { version = "0.31.0", features = ["bundled"] }
-walkdir = "2.5.0"

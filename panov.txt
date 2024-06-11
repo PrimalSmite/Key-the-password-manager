@@ -1,7 +1,0 @@
-Name: panov
-
-Login: men
-
-
-Password: mamu ebal
-
