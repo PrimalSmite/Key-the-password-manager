@@ -1,9 +1,8 @@
 pub mod file {
-    extern crate walkdir;
-
     use std::fs;
     use std::fs::File;
     use std::io::{Read, Write};
+    use std::io::{BufRead, BufReader};
 
     // Создание, запись и сохрание
     pub fn save_file(name: String, login: String, password: String) -> std::io::Result<()> {
@@ -36,9 +35,81 @@ pub mod file {
     // Вывод названия всех файлов
     pub fn print_all_files() -> std::io::Result<()> {
         // Путь до папки
-        //let folder_path = "C:\\Program Files";
+        //let folder_path = ".";
 
+        for entry in fs::read_dir(".")? {
+            let dir = entry?;
+            println!("{:?}", dir.path());
+        } 
 
         Ok(())
+    }
+
+    // Удаление пароля
+    pub fn rm_file(name: String){
+        // Добавление .txt для обозначения пути файла
+        let a = format!("{}.txt", name.trim());
+        match fs::remove_file(a){
+            Ok(_) => println!("File deleted successful"),
+            Err(err) =>println!("Ошибка: {}", err)
+        };
+    }
+
+    // Смена логина
+    pub fn change_login(name: String, new: String){
+        // Временный файл
+        let temp_path = "temp.txt";
+        let mut temp_file = File::create(temp_path).expect("Unnable to create a temp file");
+
+        // Добавление .txt для обозначения пути файла
+        let path = format!("{}.txt", name.trim());
+        let file = File::open(path.clone()).expect("Unnable to open file");
+        let reader = BufReader::new(&file); 
+
+        // Старый и новый логины
+        let new_login = format!("Login: {}", new);
+
+        // Поиск строки
+        for line in reader.lines(){
+            let line = line.expect("Unnable to read line");
+
+            if line.starts_with("Login: "){
+                writeln!(temp_file, "{}", new_login).expect("Unable to write to temp file");
+            } else{
+                writeln!(temp_file,"{}",line).expect("Unable to write to temp file");
+            }
+        }
+
+        // Смена имени временного файла
+        fs::rename(temp_path, path).expect("Unable to rename temp file");
+    }
+
+    // Смена пароля
+    pub fn change_password(name: String, new: String){
+        // Временный файл
+        let temp_path = "temp.txt";
+        let mut temp_file = File::create(temp_path).expect("Unnable to create a temp file");
+
+        // Добавление .txt для обозначения пути файла
+        let path = format!("{}.txt", name.trim());
+        let file = File::open(path.clone()).expect("Unnable to open file");
+        let reader = BufReader::new(&file); 
+
+        // Старый и новый логины
+        let new_login = format!("Password: {}", new);
+
+        // Поиск строки
+        for line in reader.lines(){
+            let line = line.expect("Unnable to read line");
+
+            if line.starts_with("Password: "){
+                writeln!(temp_file, "{}", new_login).expect("Unable to write to temp file");
+            } else{
+                writeln!(temp_file,"{}",line).expect("Unable to write to temp file");
+            }
+        }
+
+        // Смена имени временного файла
+        fs::rename(temp_path, path).expect("Unable to rename temp file");
     }
 }
