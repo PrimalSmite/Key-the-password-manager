@@ -48,11 +48,18 @@ fn main() {
             println!("Выберите действие:\n(1) Показать всё\n(2) Показать определённое\n(0) Меню");
             action = input::read_u8();
 
-            while action != 1 && action != 2{
-                if action == 1{
-                    println!("(1) Показать всё");
-                    let _ = print_all_files(); 
-                }
+            if action == 1{
+                println!("(1) Показать всё");
+                let _ = print_all_files();
+            } else if action == 2{
+                println!("(2) Показать определённое");
+                print!("Введите имя сервиса");
+                let name = input_line();
+                let _ = read_file(name);
+            } else if action == 0{
+                
+            } else {
+                println!("Ошибка! Выберите корректное действие!");
             }
 
             // Пауза
@@ -72,6 +79,7 @@ fn main() {
             // Вызов меню
             action = password::menu();
         } else if action == 5 {
+            // Изменение пароля
             println!("Введите название сервиса:");
             let name = input_line();
 

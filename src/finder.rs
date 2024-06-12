@@ -1,7 +1,7 @@
 pub mod file {
     use std::fs;
     use std::fs::File;
-    use std::io::{Read, Write};
+    use std::io::{BufWriter, Read, Write};
     use std::io::{BufRead, BufReader};
 
     // Создание, запись и сохрание
@@ -13,6 +13,9 @@ pub mod file {
         // Запись данных в файл
         b = format!("Name: {}\nLogin: {}\nPassword: {}", name, login, password);
         file.write_all(b.as_bytes())?;
+
+        // Удаление лишних строк в файле
+        delete_empty_lines(b);
 
         Ok(())
     }
@@ -81,7 +84,9 @@ pub mod file {
         }
 
         // Смена имени временного файла
-        fs::rename(temp_path, path).expect("Unable to rename temp file");
+        fs::rename(temp_path, path.clone()).expect("Unable to rename temp file");
+        // Удаление лишних строк в файле
+        delete_empty_lines(path);
     }
 
     // Смена пароля
@@ -110,6 +115,30 @@ pub mod file {
         }
 
         // Смена имени временного файла
-        fs::rename(temp_path, path).expect("Unable to rename temp file");
+        fs::rename(temp_path, path.clone()).expect("Unable to rename temp file");
+        // Удаление путсых строк 
+        delete_empty_lines(path);
+    }
+
+    // Удаление пустых строк 
+    fn delete_empty_lines(name: String){
+        // Пути до файлов
+        let input_path = format!("{}.txt", name);
+        let output_path = format!("{}_out.txt",name);
+        // Файлы
+        let input_file = File::open(input_path.clone()).expect("Unable to open file");
+        let output_file = File::create(output_path).expect("Unable to open file");
+
+        let reader = BufReader::new(input_file);
+        let mut writer = BufWriter::new(output_file);
+
+        for line in reader.lines(){
+            let line = line.expect("Unable to read line");
+            if !line.trim().is_empty(){
+                writeln!(writer, "{}", line).expect("Unable to write line");
+            }
+        }
+
+        fs::remove_file(input_path).expect("Cannot delete input file");
     }
 }
