@@ -14,9 +14,6 @@ pub mod file {
         b = format!("Name: {}\nLogin: {}\nPassword: {}", name, login, password);
         file.write_all(b.as_bytes())?;
 
-        // Удаление лишних строк в файле
-        delete_empty_lines(b);
-
         Ok(())
     }
 
@@ -85,8 +82,6 @@ pub mod file {
 
         // Смена имени временного файла
         fs::rename(temp_path, path.clone()).expect("Unable to rename temp file");
-        // Удаление лишних строк в файле
-        delete_empty_lines(path);
     }
 
     // Смена пароля
@@ -116,8 +111,6 @@ pub mod file {
 
         // Смена имени временного файла
         fs::rename(temp_path, path.clone()).expect("Unable to rename temp file");
-        // Удаление путсых строк 
-        delete_empty_lines(path);
     }
 
     // Удаление пустых строк 
