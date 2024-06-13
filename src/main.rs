@@ -6,7 +6,6 @@ use iomod::input::{input_line, read_i8};
 use finder::file::{change_login, change_password, print_all_files, read_file, rm_file, save_file};
 use funcs::consl::pause;
 use funcs::password;
-use iomod::input; //Подключение моделя password
 
 fn main() {
     let mut action= password::menu();
@@ -29,11 +28,11 @@ fn main() {
         } else if action == 2 {
             // Ввод данных пользователя
             println!("Введите название сервиса: ");
-            let name = iomod::input::input_line();
+            let name = input_line();
             println!("Введите логин: ");
-            let login = input::input_line();
+            let login = input_line();
             println!("Введите пароль: ");
-            let password = input::input_line();
+            let password = input_line();
 
             match save_file(name, login, password) {
                 Ok(saved) => println!("File saved: {:?}", saved),
@@ -46,16 +45,16 @@ fn main() {
             action = password::menu();
         } else if action == 3 {
             println!("Выберите действие:\n(1) Показать всё\n(2) Показать определённое\n(0) Меню");
-            action = input::read_u8();
+            action = iomod::input::read_u8();
 
             if action == 1{
                 println!("(1) Показать всё");
                 let _ = print_all_files();
             } else if action == 2{
                 println!("(2) Показать определённое");
-                print!("Введите имя сервиса");
+                println!("Введите имя сервиса");
                 let name = input_line();
-                let _ = read_file(name);
+                read_file(name);
             } else if action == 0{
                 
             } else {

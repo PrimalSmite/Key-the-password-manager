@@ -18,25 +18,27 @@ pub mod file {
     }
 
     // Чтение
-    pub fn read_file(name: String) -> std::io::Result<()> {
+    pub fn read_file(name: String) {
         // Добавление ".txt" для того чтобы создать файл
         let name_for_open = format!("{}.txt", name.trim());
 
         // Откртие файла
-        let mut file = File::open(name_for_open)?;
+        let mut file = File::open(name_for_open).unwrap();
 
         // Чтение
         let mut content = String::new();
-        file.read_to_string(&mut content)?;
+        file.read_to_string(&mut content).unwrap();
 
-        Ok(())
+        for line in content.lines(){
+            if !line.trim().is_empty(){
+                println!("{}", line);
+            }
+        }
+
     }
 
     // Вывод названия всех файлов
     pub fn print_all_files() -> std::io::Result<()> {
-        // Путь до папки
-        //let folder_path = ".";
-
         for entry in fs::read_dir(".")? {
             let dir = entry?;
             println!("{:?}", dir.path());
@@ -113,25 +115,19 @@ pub mod file {
         fs::rename(temp_path, path.clone()).expect("Unable to rename temp file");
     }
 
-    // Удаление пустых строк 
-    fn delete_empty_lines(name: String){
-        // Пути до файлов
-        let input_path = format!("{}.txt", name);
-        let output_path = format!("{}_out.txt",name);
-        // Файлы
-        let input_file = File::open(input_path.clone()).expect("Unable to open file");
-        let output_file = File::create(output_path).expect("Unable to open file");
-
-        let reader = BufReader::new(input_file);
-        let mut writer = BufWriter::new(output_file);
+    /*  Удаление пустых строк 
+    fn delete_empty_lines(name: String) {
+        let mut file = File::open(name).unwrap();
+        let reader = BufReader::new(file);
+        let mut writer = BufWriter::new(inner)
 
         for line in reader.lines(){
-            let line = line.expect("Unable to read line");
+            let line = line.expect("g");
             if !line.trim().is_empty(){
-                writeln!(writer, "{}", line).expect("Unable to write line");
+                write()
             }
         }
 
-        fs::remove_file(input_path).expect("Cannot delete input file");
     }
+    */
 }
