@@ -14,8 +14,13 @@ pub mod input {
 
     // Перевод переменой типа String в тип u8
     pub fn to_u8(string: &String) -> u8 {
-        let y = string.trim().parse().expect("Input not an integer");
-
+        let y:u8;
+        if string == "exit"{
+            y = 0;
+        } else{
+            y = string.trim().parse().expect("Input not an integer");
+        }
+        
         y
     }
 

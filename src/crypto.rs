@@ -4,6 +4,7 @@ pub mod aes256 {
     pub fn encrypt(string: String) -> String {
         let mcrypt = new_magic_crypt!("magickey", 256);
         let encrypted_string = mcrypt.encrypt_to_base64(&string);
+        let encrypted_string = mcrypt.encrypt_to_base64::<U256>(&string);
 
         encrypted_string
     }
