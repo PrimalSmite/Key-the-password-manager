@@ -4,6 +4,8 @@ pub mod file {
     use std::io::{BufWriter, Read, Write};
     use std::io::{BufRead, BufReader};
 
+    pub const DIR_PATH: &str = "Passwords";
+
     // Создание, запись и сохрание
     pub fn save_file(name: String, login: String, password: String) -> std::io::Result<()> {
         // Добавление ".txt" для того чтобы создать файл
