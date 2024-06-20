@@ -1,28 +1,30 @@
 pub mod file {
     use std::fs;
     use std::fs::File;
-    use std::io::{BufWriter, Read, Write};
+    use std::io::{Read, Write};
     use std::io::{BufRead, BufReader};
 
-    pub const DIR_PATH: &str = "Passwords";
+    pub const DIR_PATH: &str = "Passwords"; 
+    const PASSWORDS: &str = "Passwords/pass.txt";
 
     // Создание, запись и сохрание
-    pub fn save_file(name: String, login: String, password: String) -> std::io::Result<()> {
+    pub fn save_file(name: &String, login: &String, password: &String) {
         // Добавление ".txt" для того чтобы создать файл
-        let mut b = format!("{}.txt", name.trim());
-        let mut file = File::create(b)?;
+        let mut b = format!("{}{}.txt",DIR_PATH, name.trim());
+        let mut file = File::create(b).unwrap();
 
         // Запись данных в файл
         b = format!("Name: {}\nLogin: {}\nPassword: {}", name, login, password);
-        file.write_all(b.as_bytes())?;
-
-        Ok(())
+        match file.write_all(b.as_bytes()){
+            Ok(_) => println!("Файл успешно сохранен"),
+            Err(err) => println!("Ошибка {}", err)
+        }
     }
 
     // Чтение
     pub fn read_file(name: String) {
         // Добавление ".txt" для того чтобы создать файл
-        let name_for_open = format!("{}.txt", name.trim());
+        let name_for_open = format!("{}{}.txt",DIR_PATH, name.trim());
 
         // Откртие файла
         let mut file = File::open(name_for_open).unwrap();
@@ -41,7 +43,7 @@ pub mod file {
 
     // Вывод названия всех файлов
     pub fn print_all_files() -> std::io::Result<()> {
-        for entry in fs::read_dir(".")? {
+        for entry in fs::read_dir(DIR_PATH)? {
             let dir = entry?;
             println!("{:?}", dir.path());
         } 
@@ -52,7 +54,7 @@ pub mod file {
     // Удаление пароля
     pub fn rm_file(name: String){
         // Добавление .txt для обозначения пути файла
-        let a = format!("{}.txt", name.trim());
+        let a = format!("{}{}.txt",DIR_PATH, name.trim());
         match fs::remove_file(a){
             Ok(_) => println!("File deleted successful"),
             Err(err) =>println!("Ошибка: {}", err)
@@ -66,7 +68,7 @@ pub mod file {
         let mut temp_file = File::create(temp_path).expect("Unnable to create a temp file");
 
         // Добавление .txt для обозначения пути файла
-        let path = format!("{}.txt", name.trim());
+        let path = format!("{}{}.txt",DIR_PATH, name.trim());
         let file = File::open(path.clone()).expect("Unnable to open file");
         let reader = BufReader::new(&file); 
 
@@ -95,7 +97,7 @@ pub mod file {
         let mut temp_file = File::create(temp_path).expect("Unnable to create a temp file");
 
         // Добавление .txt для обозначения пути файла
-        let path = format!("{}.txt", name.trim());
+        let path = format!("{}{}.txt",DIR_PATH, name.trim());
         let file = File::open(path.clone()).expect("Unnable to open file");
         let reader = BufReader::new(&file); 
 
@@ -117,19 +119,14 @@ pub mod file {
         fs::rename(temp_path, path.clone()).expect("Unable to rename temp file");
     }
 
-    /*  Удаление пустых строк 
-    fn delete_empty_lines(name: String) {
-        let mut file = File::open(name).unwrap();
-        let reader = BufReader::new(file);
-        let mut writer = BufWriter::new(inner)
-
-        for line in reader.lines(){
-            let line = line.expect("g");
-            if !line.trim().is_empty(){
-                write()
-            }
+    // Проверка наличия файла с паролем
+    pub fn file_exists() -> i8 {
+        if fs::metadata("Passwords/pass.txt").is_ok() {
+            1
+        } else if fs::metadata("Passwords/none.txt").is_ok() {
+            -1
+        }else {
+            0
         }
-
     }
-    */
 }
