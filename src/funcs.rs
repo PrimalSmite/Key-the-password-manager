@@ -13,7 +13,7 @@ pub mod consl {
 }
 
 pub mod password {
-    use crate::iomod::input::read_u8;
+    use crate::{crypto::aes256::check_password, iomod::input::{input_line, read_u8}};
     use rand::Rng;
 
     //Массив символов
@@ -48,5 +48,27 @@ pub mod password {
             .collect();
 
         password
+    }
+
+    // Ввод и проверка пароля 
+    pub fn input_password() -> bool {
+        let mut pass = String::new();
+        println!("Введите пароль:");
+        pass = input_line();
+        while pass != "0" {
+            if check_password(&pass) == false {
+                println!("Неверный пароль! Попробуйте ещё раз, или введите '0' для выхода");
+                println!("Введите пароль:");
+                pass = input_line();
+            } else {
+                break;
+            }
+        }
+
+        if pass == "0"{
+            false
+        } else {
+            true
+        }
     }
 }
