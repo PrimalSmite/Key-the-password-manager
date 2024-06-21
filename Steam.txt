@@ -1,6 +1,0 @@
-Name: Steam
-
-Login: eblo
-
-
-Password: &AM3VlENNhqrtiE
