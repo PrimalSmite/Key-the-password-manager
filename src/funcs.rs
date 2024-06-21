@@ -26,13 +26,19 @@ pub mod password {
         println!("Выберите действие:\n(1) Сгенирировать пароль\n(2) Сохранить пароль\n(3) Показать пароль\n(4) Сменить логин\n(5) Сменить пароль\n(6) Удалить пароль\n(0) Выход");
         let action: u8 = read_u8();
         if action == 1{
-            println!("(1) Сгенирировать пароль");
+            println!("(1) Сгенирировать пароль\n");
         } else if action == 2 {
-            println!("(2) Сохранить пароль");
+            println!("(2) Сохранить пароль\n");
         } else if action == 3{
             println!("(3) Показать пароль");
-        } 
-
+        } else if action == 4 {
+            println!("(4) Сменить логин\n");
+        } else if action == 5 {
+            println!("(5) Сменить пароль\n");
+        } else if action == 6 {
+            println!("(6) Удалить пароль\n");
+        }
+ 
         action
     }
 
@@ -54,12 +60,13 @@ pub mod password {
     pub fn input_password() -> bool {
         let mut pass = String::new();
         println!("Введите пароль:");
-        pass = input_line();
+        //pass = input_line();
         while pass != "0" {
+            pass = input_line();
             if check_password(&pass) == false {
                 println!("Неверный пароль! Попробуйте ещё раз, или введите '0' для выхода");
                 println!("Введите пароль:");
-                pass = input_line();
+                //pass = input_line();
             } else {
                 break;
             }

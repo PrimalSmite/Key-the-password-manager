@@ -3,16 +3,16 @@ mod iomod;
 mod crypto;
 mod finder;
 
-use std::{clone, fs};
+use std::fs;
 
-use finder::file::{change_login, file_exists, print_all_files, read_file, save_file};
+use finder::file::{change_login, change_password, file_exists, print_all_files, read_file, rm_file, save_file};
 use crypto::aes256::{ask_for_crypt, check_password, decrypt, encrypt, hash_str, status_check, write_hash};
-use iomod::input::{self, input_line};
+use iomod::input::input_line;
 use crate::iomod::input::{read_i8, read_u8};
 use funcs::consl::pause;
-use funcs::password::{generate, menu, input_password}; //Подключение моделя password
+use funcs::password::{self, generate, input_password, menu}; //Подключение моделя password
 
-fn crypto_config_check() -> i8{
+pub fn crypto_config_check() -> i8{
     if status_check() == 1 { // Остутствие файлов, вопрос о шифровании
         ask_for_crypt();
         status_check()
@@ -63,52 +63,41 @@ fn main() {
                 save_file(&name, &login, &password);
             } else {
                 if input_password() == true {
-                    save_file(&name, &login, &password);
+                    save_file(&name, &login, &encrypt(&password));
                 }
             }
-
 
             //Пауза
             pause();
             // Меню
             action = menu();
         } else if action == 3 {
-            println!("(1) Показать список паролей\n(2) Показать конкретный пароль\n(0) Вернутсья");
-            println!("Ввод:");
-            let mut third_act = read_u8();
+            let mut act:u8 = 1; 
 
-            while third_act != 0 {
-                if third_act == 1 {
+            while act != 0 {
+                println!("\n(1) Показать список паролей\n(2) Показать конкретный пароль\n(0) Вернутсья");
+                println!("Ввод:");
+                act = read_u8();
+
+                if act == 1 {
+                    println!(""); // Пустая строка для пространства
                     print_all_files();
-                    println!("(1) Показать список паролей\n(2) Показать конкретный пароль\n(0) Вернутсья");
-                    println!("Ввод:");
-                    third_act = read_u8();
-                } else if third_act == 2 {
-                    println!("Введите имя сервиса");
+                } else if act == 2 {
+                    println!("Введите имя сервиса:");
                     let name = input_line();
-
+                    
                     if check == 2 {
                         // Пропуск ввода пароля
                         read_file(&name);
                     } else {
-                        let mut pass = String::new();
-                        //println!("Введите пароль:");
-                        //pass = input_line();
-
-                        while pass != "0"{
-                            
-                            println!("Введите пароль:");
-                            pass = input_line();
-                        
-                            if check_password(&pass) == false{
-                                println!("Неверный пароль! Введите пароль повторно, или введите 'Выход'");
-                            } else {
-                                read_file(&name);
-                                break;
-                            }
+                        // Ввод пароля
+                        if input_password() == true {
+                            read_file(&name);
+                            break;
                         }
-                        break;
                     }
+                } else if act != 1 && act != 2 && act != 0 {
+                    println!("\nВыберите корректное действие!");
                 }
             }
 
@@ -130,9 +119,7 @@ fn main() {
                 // Ввод пароля
                 if input_password() == true {
                 change_login(&name, &login);
-                } else {
-                    // Пропуск
-                }
+                } 
             }
 
             // Пауза
@@ -140,8 +127,52 @@ fn main() {
             // Меню
             action = menu();
         } else if action == 5 {
+            println!("Введите имя сервиса:");
+            let name = input_line();
 
-        }
+            println!("Введите новый пароль:");
+            let new = input_line();
+
+            if check == 2 {
+                // Пропуск ввода пароля
+                change_password(&name, &new);
+            } else {
+                // Ввод пароля
+                if input_password() == true {
+                    change_password(&name, &new);
+                }
+            }
+
+            // Пауза
+            pause();
+            // Меню
+            action == password::menu();
+        } else if action == 6 {
+            println!("Введите имя сервиса:");
+            let name = input_line();
+
+            println!("Введите 'ПОДТВЕРДИТЬ' для продолжения:");
+            let confirmation = input_line();
+
+            if confirmation.trim() != "ПОДТВЕРДИТЬ" {
+                println!("Возврать в главное меню...");
+            } else {
+                if check == 2 {
+                    // Пропуск ввода пароля
+                    rm_file(&name);
+                } else {
+                    // Ввод пароля
+                    if input_password() == true {
+                        rm_file(&name);
+                    }
+                }
+            }
+
+            // Пауза
+            pause();
+            // Меню
+            action == password::menu();
+        } 
     }  
 
 }

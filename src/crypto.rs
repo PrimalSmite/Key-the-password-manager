@@ -1,15 +1,15 @@
 pub mod aes256 {
     use std::collections::hash_map::DefaultHasher;
-    use std::fs::{File};
+    use std::fs::File;
     use std::hash::{Hash, Hasher};
-    use std::io::{Bytes, Read, Write};
+    use std::io::{Read, Write};
     use magic_crypt::{new_magic_crypt, MagicCrypt256, MagicCryptTrait};
 
     use crate::finder::file::{DIR_PATH, file_exists};
     use crate::iomod::input::{input_line, read_u8};
 
     // Шифрование
-    pub fn encrypt(string: String) -> String {
+    pub fn encrypt(string: &String) -> String {
         let mcrypt = new_magic_crypt!("magickey", 256);
         let encrypted_string = mcrypt.encrypt_to_base64(&string);
 
@@ -19,7 +19,7 @@ pub mod aes256 {
     // Дешифрование 
     pub fn decrypt(encrypted_string: &String) -> String {
         let mcrypt = new_magic_crypt!("magickey", 256);
-        let decrypt_string = mcrypt.decrypt_base64_to_string(encrypted_string).unwrap();
+        let decrypt_string = mcrypt.decrypt_base64_to_string(encrypted_string).unwrap().to_string();
 
         decrypt_string
     }
@@ -90,5 +90,6 @@ pub mod aes256 {
         }
 
     }
+
 
 }

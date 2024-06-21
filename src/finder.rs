@@ -4,8 +4,12 @@ pub mod file {
     use std::io::{Read, Write};
     use std::io::{BufRead, BufReader};
 
+    use crate::crypto::aes256::decrypt;
+
+    use crate::crypto_config_check;
+    use crate::funcs::password::{self, input_password};
+
     pub const DIR_PATH: &str = "Passwords"; 
-    const PASSWORDS: &str = "Passwords/pass.txt";
 
     // Создание, запись и сохрание
     pub fn save_file(name: &String, login: &String, password: &String) {
@@ -35,7 +39,17 @@ pub mod file {
 
         for line in content.lines(){
             if !line.trim().is_empty(){
-                println!("{}", line);
+                if line.contains("Password: ") {
+                    let password = line.replace("Password: ", "");
+                    if !password.is_empty(){
+                        println!("Password: {}",decrypt(&password)); 
+                    } else {
+                        println!("Password: {}", &password);
+                    }
+                    break;
+                } else {
+                    println!("{}", line);
+                }
             }
         }
 
@@ -59,7 +73,7 @@ pub mod file {
     }
 
     // Удаление пароля
-    pub fn rm_file(name: String){
+    pub fn rm_file(name: &String){
         // Добавление .txt для обозначения пути файла
         let a = format!("{}{}.txt",DIR_PATH, name.trim().to_lowercase());
         match fs::remove_file(a){
@@ -98,7 +112,7 @@ pub mod file {
     }
 
     // Смена пароля
-    pub fn change_password(name: String, new: String){
+    pub fn change_password(name: &String, new: &String){
         // Временный файл
         let temp_path = "temp.txt";
         let mut temp_file = File::create(temp_path).expect("Unnable to create a temp file");
