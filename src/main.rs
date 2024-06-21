@@ -5,12 +5,12 @@ mod finder;
 
 use std::fs;
 
-use finder::file::{change_login, change_password, file_exists, print_all_files, read_file, rm_file, save_file};
-use crypto::aes256::{ask_for_crypt, check_password, decrypt, encrypt, hash_str, status_check, write_hash};
+use finder::file::{change_login, change_password,  print_all_files, read_file, rm_file, save_file};
+use crypto::aes256::{ask_for_crypt, encrypt, status_check};
 use iomod::input::input_line;
 use crate::iomod::input::{read_i8, read_u8};
 use funcs::consl::pause;
-use funcs::password::{self, generate, input_password, menu}; //Подключение моделя password
+use funcs::password::{generate, input_password, menu}; //Подключение моделя password
 
 pub fn crypto_config_check() -> i8{
     if status_check() == 1 { // Остутствие файлов, вопрос о шифровании
@@ -104,7 +104,7 @@ fn main() {
             // Пауза
             pause();
             // Меню
-            action == menu();
+            action = menu();
         } else if action == 4 {
             println!("Введите имя сервиса:");
             let name = input_line();
@@ -146,7 +146,7 @@ fn main() {
             // Пауза
             pause();
             // Меню
-            action == password::menu();
+            action = menu();
         } else if action == 6 {
             println!("Введите имя сервиса:");
             let name = input_line();
@@ -171,7 +171,7 @@ fn main() {
             // Пауза
             pause();
             // Меню
-            action == password::menu();
+            action = menu();
         } 
     }  
 

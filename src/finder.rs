@@ -6,9 +6,6 @@ pub mod file {
 
     use crate::crypto::aes256::decrypt;
 
-    use crate::crypto_config_check;
-    use crate::funcs::password::{self, input_password};
-
     pub const DIR_PATH: &str = "Passwords"; 
 
     // Создание, запись и сохрание
