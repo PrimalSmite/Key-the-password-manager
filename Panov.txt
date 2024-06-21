@@ -1,6 +1,0 @@
-Name: Panov
-
-Login: eblo
-
-
-Password: haha
